@@ -17,7 +17,6 @@ A vanity address is an address in which you can choose a part of it to make it a
 
     <h1 class="pt-5 text-2xl font-bold">How it works</h1>
     <p class="text-md pb-1">Enter a short prefix and/or suffix of your choice and click Generate to start. Your browser will generate lots of random addresses until it finds one that matches your input.
-Once an address is found, you can choose to reveal the private key or click the Save button to download a password-encrypted keystore file.
 </p>
 <p class="text-md">
 Adjusting the number of working threads can increase or decrease the speed, depending on your computer's capabilities.</p>
@@ -31,8 +30,11 @@ The keypair is generated using the Ed25519 elliptic curve algorithm with 32 byte
   <div class="card px-2 py-1 bg-base-300 mb-2">
    <fieldset class="fieldset">
      <legend id="estimate-legend" class="fieldset-legend text-lg">Estimated :</legend>
-   <p>Estimated Attempt: <span id="estimate-difficulty">0</span></p>
-    <p><span id="speed-label">Speed</span>: <span id="estimate-speed">0</span></p>
+   <p>Difficulty : <span id="estimate-difficulty">0</span></p>
+    <p><span id="speed-label">Speed</span>: <span id="estimate-speed">0</span>
+    <span id="speed-benchmark-label" class="italic">
+      (estimated by benchmarking)
+      </span></p>
     <p><span id="time-label">Expected Time</span>: <span id="estimate-time">0</span></p>
     <div class="flex items-center gap-2">
       <p class="whitespace-nowrap">Progress: <span id="actual-progress">0%</span> <span class="italic">
@@ -50,18 +52,28 @@ The keypair is generated using the Ed25519 elliptic curve algorithm with 32 byte
 
 <label class="input my-1 w-full">
   Prefix :
-  <input id="prefix-input" type="text" class="grow" />
+  <input autocomplete="off" id="prefix-input" type="text" class="grow" />
 </label>
 <label class="input w-full">
   Suffix :
-  <input id="suffix-input" type="text" class="grow" />
+  <input autocomplete="off" id="suffix-input" type="text" class="grow" />
 </label>
 <div class="pt-2 px-2 md:flex md:justify-between">
+  
+  <div>
 <label class="flex justify-start w-fit">
- <span class="translate-y-1">Case Sensitive?</span>
+ <span class="translate-y-1">Case Sensitive</span>
   <lit-switch id="case-sensitive-switch" class="scale-[0.6]"></lit-switch>
-   <span class="translate-y-1 text-xs opacity-50 italic">may stuck arround &gt;90%</span>
+   <span class="translate-y-2 text-xs opacity-50 italic">may stuck arround &gt;90%</span>
 </label>
+<label class="flex justify-start w-fit">
+ <span class="translate-y-1">Auto Download</span>
+  <lit-switch id="auto-download-switch" class="scale-[0.6]"></lit-switch>
+   <span class="translate-y-2 text-xs opacity-50 italic">.txt files</span>
+</label>
+  </div>
+  
+  
 <div class="flex pt-2 gap-1">
 <button id="threads-minus" class="btn btn-xs btn-accent">-</button><span id="threads-value">0</span><button id="threads-plus" class="btn btn-xs btn-accent">+</button> Threads
 </div>
@@ -80,7 +92,16 @@ The keypair is generated using the Ed25519 elliptic curve algorithm with 32 byte
   </div>
 </div>
 </div>
-    
+
+<div class="p-2 mb-4 bg-base-200 rounded-md text-right">
+      <a href="https://github.com/mininxd/solana-vanity-gen">
+    <btn class="btn btn-accent">
+        <i class="ri-star-fill"></i> Star on GitHub
+    </btn>
+      </a>
+</div>
+      
     <script type="module" src="/src/main.js"></script>
+    
   </body>
 </html>

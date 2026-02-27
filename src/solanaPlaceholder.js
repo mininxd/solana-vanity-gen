@@ -12,10 +12,12 @@ const difficultyEl = document.getElementById("estimate-difficulty");
 const speedEl = document.getElementById("estimate-speed");
 const timeEl = document.getElementById("estimate-time");
 const speedLabel = document.getElementById("speed-label");
+const speedBenchmarkLabel = document.getElementById("speed-benchmark-label");
 const timeLabel = document.getElementById("time-label");
 const actualProgressEl = document.getElementById("actual-progress");
 const progressBar = document.getElementById("generate-progress-bar");
 const caseSensitiveSwitch = document.getElementById("case-sensitive-switch");
+const autoDownloadSwitch = document.getElementById("auto-download-switch");
 const threadsMinusBtn = document.getElementById("threads-minus");
 const threadsPlusBtn = document.getElementById("threads-plus");
 const threadsValueEl = document.getElementById("threads-value");
@@ -104,6 +106,7 @@ function updateAll(e) {
   timeEl.textContent = formatTime(parseFloat(est.expectedTimeSeconds));
   
   speedLabel.textContent = "Speed";
+  speedBenchmarkLabel.classList.add("hidden");
   timeLabel.textContent = "Expected Time";
 
   if (!isGenerating) {
@@ -137,6 +140,7 @@ threadsPlusBtn.addEventListener("click", () => {
 });
 
 caseSensitiveSwitch.addEventListener("change", updateAll);
+autoDownloadSwitch.addEventListener("change", updateAll);
 
 generateBtn.addEventListener("click", async () => {
   const prefix = prefixInputEl.value;
@@ -148,6 +152,7 @@ generateBtn.addEventListener("click", async () => {
   prefixInputEl.disabled = true;
   suffixInputEl.disabled = true;
   caseSensitiveSwitch.disabled = true;
+  autoDownloadSwitch.disabled = true;
   threadsMinusBtn.disabled = true;
   threadsPlusBtn.disabled = true;
 
@@ -172,9 +177,9 @@ generateBtn.addEventListener("click", async () => {
         // but for now this is fine for standard usage.
         prob = (1 - Math.pow(1 - 1/currentDifficulty, attempts)) * 100;
       }
-      const probValue = prob / 100;
-      actualProgressEl.textContent = (prob < 0.01 ? prob.toPrecision(2) : prob.toFixed(2)) + "%";
-      progressBar.value = probValue;
+      const displayProb = Math.min(prob, 99.99);
+      actualProgressEl.textContent = displayProb.toFixed(2) + "%";
+      progressBar.value = displayProb / 100;
 
       // Update live stats
       speedEl.textContent = formatAmount(attempts);
@@ -194,6 +199,19 @@ generateBtn.addEventListener("click", async () => {
     resultTime.textContent = result.time;
     resultContainer.classList.remove("hidden");
     
+    if (autoDownloadSwitch.selected) {
+      const content = `${result.address}\n${result.privateKey}`;
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `solana-vanity-${result.address.slice(0, 8)}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    
     // Final stats update
     actualProgressEl.textContent = "100%";
     progressBar.value = 1;
@@ -202,7 +220,7 @@ generateBtn.addEventListener("click", async () => {
     estimateLegend.textContent = "Completed :";
   } catch (err) {
     console.error(err);
-    alert("An error occurred during generation. Check the console for details.");
+  //  alert("An error occurred during generation. Check the console for details.");
     estimateLegend.textContent = "Error :";
   } finally {
     isGenerating = false;
@@ -210,6 +228,7 @@ generateBtn.addEventListener("click", async () => {
     prefixInputEl.disabled = false;
     suffixInputEl.disabled = false;
     caseSensitiveSwitch.disabled = false;
+    autoDownloadSwitch.disabled = false;
     generateBtn.textContent = "Generate";
     
     // Update thread buttons state without resetting progress text/legend
