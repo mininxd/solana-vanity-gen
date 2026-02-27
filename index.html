@@ -1,0 +1,86 @@
+<!doctype html>
+<html data-theme="solana-light" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solana Vanity Gen</title>
+  </head>
+  <body id="body" class="py-2 mx-2 md:mx-5">
+    <div class="text-3xl text-center font-black px-2 py-2 border border-white/25 rounded mx-5 mt-2 mb-6">Solana Vanity Gen</div>
+    
+    <h1 class="text-2xl font-bold">What's a vanity address?</h1>
+    <p class="text-md pb-1">
+A vanity address is an address in which you can choose a part of it to make it appear less random.
+</p>
+<p class="pt-2 pl-2">Examples :</p>
+<ul class="mx-2" id="vanity-list"></ul>
+
+    <h1 class="pt-5 text-2xl font-bold">How it works</h1>
+    <p class="text-md pb-1">Enter a short prefix and/or suffix of your choice and click Generate to start. Your browser will generate lots of random addresses until it finds one that matches your input.
+Once an address is found, you can choose to reveal the private key or click the Save button to download a password-encrypted keystore file.
+</p>
+<p class="text-md">
+Adjusting the number of working threads can increase or decrease the speed, depending on your computer's capabilities.</p>
+
+<h1 class="pt-5 text-2xl font-bold">Security</h1>
+<p class="text-md">
+The keypair is generated using the Ed25519 elliptic curve algorithm with 32 bytes of cryptographically secure random entropy. The private key is returned as a raw 64-byte secret key encoded in Base58 format, without encryption or password-based key derivation.
+</p>
+
+<div class="card p-3 my-6 py-6 bg-base-200 w-full shadow-sm text-md">
+  <div class="card px-2 py-1 bg-base-300 mb-2">
+   <fieldset class="fieldset">
+     <legend id="estimate-legend" class="fieldset-legend text-lg">Estimated :</legend>
+   <p>Estimated Attempt: <span id="estimate-difficulty">0</span></p>
+    <p><span id="speed-label">Speed</span>: <span id="estimate-speed">0</span></p>
+    <p><span id="time-label">Expected Time</span>: <span id="estimate-time">0</span></p>
+    <div class="flex items-center gap-2">
+      <p class="whitespace-nowrap">Progress: <span id="actual-progress">0%</span> <span class="italic">
+      (Probability)
+      </span>
+      </p>
+    </div>
+      <lit-progress id="generate-progress-bar" class="w-full px-2" value="0"></lit-progress>
+   </fieldset>
+  </div>
+    <label class="text-sm opacity-75">e.g :</label>
+  <div class="flex justify-center">
+  <span class="roboto-mono-font md:text-2xl bg-accent/10 p-1 px-2 rounded-md overflow-scroll" id="solana-address"></span>
+  </div>
+
+<label class="input my-1 w-full">
+  Prefix :
+  <input id="prefix-input" type="text" class="grow" />
+</label>
+<label class="input w-full">
+  Suffix :
+  <input id="suffix-input" type="text" class="grow" />
+</label>
+<div class="pt-2 px-2 md:flex md:justify-between">
+<label class="flex justify-start w-fit">
+ <span class="translate-y-1">Case Sensitive?</span>
+  <lit-switch id="case-sensitive-switch" class="scale-[0.6]"></lit-switch>
+   <span class="translate-y-1 text-xs opacity-50 italic">may stuck arround &gt;90%</span>
+</label>
+<div class="flex pt-2 gap-1">
+<button id="threads-minus" class="btn btn-xs btn-accent">-</button><span id="threads-value">0</span><button id="threads-plus" class="btn btn-xs btn-accent">+</button> Threads
+</div>
+</div>
+<button id="generate-btn" class="mt-4 btn btn-accent w-full">Generate</button>
+
+<div id="result-container" class="hidden mt-6 p-4 bg-success/10 border border-success rounded-lg">
+  <h2 class="text-xl font-bold mb-2">Wallet Generated!</h2>
+  <p class="mb-1 text-sm opacity-70">Address:</p>
+  <p id="result-address" class="roboto-mono-font break-all bg-base-300 p-2 rounded mb-3 text-sm"></p>
+  <p class="mb-1 text-sm opacity-70">Private Key (Base58):</p>
+  <p id="result-private-key" class="roboto-mono-font break-all bg-base-300 p-2 rounded mb-3 text-sm"></p>
+  <div class="flex justify-between text-xs">
+    <span>Attempts: <span id="result-attempts">0</span></span>
+    <span>Time: <span id="result-time">0</span>s</span>
+  </div>
+</div>
+</div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

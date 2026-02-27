@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import "tailwindcss";
+@import "./theme.css";
+@plugin "daisyui";
+
+*::-webkit-scrollbar {
+  display: none !important;
+}
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+[class*="text-"] {
+  font-family: "Google Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: auto;
+  font-style: auto;
+}
+
+.montserrat-font {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: auto;
+  font-style: auto;
+}
+
+
+.roboto-mono-font {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: auto;
+  font-style: auto;
+}
+
+
+/* Material Web*/
+:root {
+  --md-sys-color-primary: oklch(78% 0.18 200);
+}
